@@ -4,11 +4,45 @@ By: Kristen Lee and Jordi Pham
 
 ## Introduction
 
+ <!-- Provide an introduction to your dataset, and clearly state the one question your project is centered around. Why should readers of your website care about the dataset and your question specifically? Report the number of rows in the dataset, the names of the columns that are relevant to your question, and descriptions of those relevant columns. -->
+
+The recipes and ratings dataset is a dataset that revolves around recipes for food and reviews for how well those recipes did. For our project, we are particularly interested in what is the relationship between cooking time and the average rating of recipes. Readers of should care about our dataset and questions because they can provide a baseline when choosing a recipe to cook for their next meal. Per our given csv files, `interactions` is a dataset with 731927 rows, `recipes` is a dataset with 83782 rows, and the left-merged dataset evaluates to 234429 rows of data. The columns that will prove most relevant to our question are `rating` (user-given rating of the recipe) and `minutes` (preparation time of the recipe). Using these two columns, we believe we will be able to compile the right information to hopefully answer our data science question.
+
 ## Data Cleaning and Exploratory Data Analysis
+### Data Cleaning
+<!-- Describe, in detail, the data cleaning steps you took and how they affected your analyses. The steps should be explained in reference to the data generating process. Show the head of your cleaned DataFrame (see Part 2: Report for instructions). -->
+
+<!-- We did not fill or impute missing data, since intructions said ... -->
+
+
+### Univariate Analysis
+<!-- we discovered BIG outliers in minutes, we decided to remove these rows using the IQR as boundaries-->
+
+### Bivariate Analysis
+
+### Interesting Aggregates
 
 ## Assessment of Missingness
+### NMAR Analysis
+The reviews column is a column that could be deemed as NMAR, or not missing at random. After all, this is a dataset of food recipes and their respective reviews; a missing review for a recipe can really only be traced back to how a reviewer interacted with the recipe. The food could've have been so bad that the person felt no need to even leave a review, the recipe may or may not have ever been tried before for a review to be made, or human nature got in the way and the reviewer essentially just forgot to leave a review when logging their personal interaction. 
+
+If we were to change the missingness from NMAR to MAR, where some other column in the dataset could explain the missingness of the `review` column, the additional data that we could possibly obtain would be ...
+
+### Missingness Dependency
+Missingess: avg ratings on diff-of-means for protein pdv (percent daily value) ...
+
+Non-missingness: avg ratings on diff-of-means for calories ...
+
+Our chosen siginficance level was 0.01. 
 
 ## Hypothesis Testing
+Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
+
+Our alternative hypothesis is **that there ***IS*** a relationship between the average rating of a recipe and its cooking time**. 
+
+Our test statistic is **Pearson's R**, otherwise known as the correlation coefficient, which we chose a significance level of **0.01**. `JUSTIFY`
+
+After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
 
 ## Framing a Prediction Problem
 
