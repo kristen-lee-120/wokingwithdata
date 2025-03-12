@@ -1,3 +1,5 @@
+ <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
 # Woking with Data
 By: Kristen Lee and Jordi Pham
 
@@ -38,7 +40,7 @@ Our chosen siginficance level was 0.01.
 ## Hypothesis Testing
 Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
 
-Our alternative hypothesis is **that there ***IS*** a relationship between the average rating of a recipe and its cooking time**. 
+Our alternative hypothesis is **that there _IS_ a relationship between the average rating of a recipe and its cooking time**. 
 
 Our test statistic is **Pearson's R**, otherwise known as the correlation coefficient, which we chose a significance level of **0.01**. `JUSTIFY`
 
