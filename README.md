@@ -33,13 +33,19 @@ The interaction dataset contains these relevant columns:
 <!-- Describe, in detail, the data cleaning steps you took and how they affected your analyses. The steps should be explained in reference to the data generating process. Show the head of your cleaned DataFrame (see Part 2: Report for instructions). -->
 
 <!-- We did not fill or impute missing data, since intructions said ... -->
+In order to clean our dataframe, we first looked to clean columns where certain values failed to make sense or the values came in an unusable form. For the `ratings` column, some recipes had a rating of 0; however, we do not have any external sources to confirm what this zero truly means: could this 0 be a real rating of 0 out of 5 or is it 0 because it hasn't been rated? Using the ratings we did have, though, we created and mapped a series of average ratings onto their respective recipes. Columns like `tags`, `nutrition`, and `ingredients` were columns where their values were strings that appeared as lists, which we stripped the values of their list brackets and split accordingly to create actual lists. Specifically for nutrition, we further created a column for each nutritional statistic and then removed the original nutrition column. Another column we removed was a column called `Unnamed: 0`: it was unclear as to what values were contained in this column. On top of cleaning these columns, we also created an `n_missing` variable that is a series containing the counts of missing values in each column.
 
 
 
 ### Univariate Analysis
 <!-- we discovered BIG outliers in minutes, we decided to remove these rows using the IQR as boundaries-->
+In our first attempt at univariate analysis, we chose to focus on the column for cook time `minutes`; creating a histogram, the first thing we noticed is some of the recipes have an outrageous cook time comnpared to other recipes. Thus, we decided to add in another cleaning step here: using the interquartile range, we deicded to eliminate rows from our main dataframe that were bigger or smaller than the range.
+
+<!--add graph here-->
+<!--add descriptive analysis after-->
 
 ### Bivariate Analysis
+For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
 
 ### Interesting Aggregates
 
