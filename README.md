@@ -9,24 +9,28 @@ By: Kristen Lee and Jordi Pham
 The recipes and ratings dataset is a dataset that revolves around recipes for food and reviews for how well those recipes did. For our project, we are particularly interested in what is the relationship between cooking time and the average rating of recipes. Readers of should care about our dataset and questions because they can provide a baseline when choosing a recipe to cook for their next meal. Per our given csv files, `interactions` is a dataset with 731927 rows, `recipes` is a dataset with 83782 rows, and the left-merged dataset evaluates to 234429 rows of data. The columns that will prove most relevant to our question are `rating` (user-given rating of the recipe) and `minutes` (preparation time of the recipe). Using these two columns, we believe we will be able to compile the right information to hopefully answer our data science question.
 
 The recipe dataset contains these relevant columns:
-* `name` - name of the recipe
-* `id` - id of the recipe
-* `minutes` - cooking time of the recipe
-* `contrbutor_id` - id of person who created the review
-* `submitted` - date in which the review was logged
-* `tags` - miniature descriptive tags for each recipe (string that looks like a list)
-* `nutrition` - list of nutrition facts shown in the form of a string
-* `n_steps` - number of steps required for the recipe
-* `steps` - text description of each step for the recipe
-* `ingredients` - text description of the required ingredients for the recipe
-* `n_ingredients` - number of ingredients for the recipe
+| **Column**       | **Description** |
+|------------------|-----------------|
+| `name`            | Name of the recipe |
+| `id`              | ID of the recipe |
+| `minutes`         | Cooking time of the recipe |
+| `contributor_id`  | ID of the person who created the review |
+| `submitted`       | Date the review was logged |
+| `tags`            | Miniature descriptive tags for each recipe (string format resembling a list) |
+| `nutrition`       | List of nutrition facts shown in string format |
+| `n_steps`         | Number of steps required for the recipe |
+| `steps`           | Text description of each step for the recipe |
+| `ingredients`     | Text description of the required ingredients for the recipe |
+| `n_ingredients`   | Number of ingredients for the recipe |
 
 The interaction dataset contains these relevant columns:
-* `user_id` - id of the user
-* `recipe_id` - id of the recipe
-* `date` - logged date of the review
-* `rating` - rating out of 5 given by user
-* `review` - description text of what the user review
+| **Column**   | **Description** |
+|---------------|-----------------|
+| `user_id`      | ID of the user |
+| `recipe_id`    | ID of the recipe |
+| `date`         | Logged date of the review |
+| `rating`       | Rating out of 5 given by the user |
+| `review`       | Description text of the user review |
 
 ## Data Cleaning and Exploratory Data Analysis
 ### Data Cleaning
@@ -60,7 +64,19 @@ Missingess: avg ratings on diff-of-means for protein pdv (percent daily value) .
 
 Non-missingness: avg ratings on diff-of-means for calories ...
 
-Our chosen siginficance level was 0.01. 
+First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
+
+* Null: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
+
+* Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
+
+Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
+
+* Null: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
+
+* Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
+
+For both tests, our chosen test statistic was the difference of means between the two groups, and we used permutation testing through 500 iterations in which we were operating under a significance level of 0.01. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had a rating and those with the lack thereof.
 
 ## Hypothesis Testing
 Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
@@ -72,6 +88,11 @@ Our test statistic is **Pearson's R**, otherwise known as the correlation coeffi
 After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
 
 ## Framing a Prediction Problem
+Our prediction problem's goal is to predict the number of steps required in a recipe, which will be a regression-type problem. Our response variable is `n_steps`, and we chose it because the number of steps in a recipe is dependent on a lot of different factors and does not exactly increase or decrease in an intutitive manner. For example, a recipe could take over 60 minutes of cook time but that does not necessarily mean it takes a lot of steps. Through this model, we hope to isolate different regressors that can play a role in determining how many steps a recipe takes, and in the end, we look to evaluate our model through the r-square metric. R-square has mathematically relations to another peformance metric, RMSE; however, it has its pros and cons. R-square is a performance metric that is unit-independent, making it easier to interpret and compare across different models. RMSE follows the same units as our response variable; however, across different models it can be a lot harder to compare and interpret. Hence, we are taking advatange of the intepretability of the r-square performance metric.
+
+At the time of prediction, there are a few initial columns for us to consider in our prediction model: `minutes` and `n_ingredients`. These two initial regressors we consider to be highly relevant to our response variable: on average, we would expect that a recipe  of longer time probably required more steps and that a recipe that requires more ingredients probably adds more steps in regards to preparation and such. More regressors can be engineered later to improve the model.
+
+## Baseline Model
 
 ## Final Model
 
