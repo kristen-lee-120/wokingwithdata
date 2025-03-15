@@ -56,7 +56,7 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 <!--add descriptive analysis after-->
 
 <iframe
-  src="assets/univariate-mintues-dis-no-outliers.html"
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/univariate-mintues-dis-no-outliers.html"
   width="800"
   height="600"
   frameborder="0"
@@ -64,6 +64,12 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ### Interesting Aggregates
 
@@ -81,12 +87,25 @@ First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 * Null: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/mar-no-sig.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 
 * Null: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
+
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/mar-sig.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Hypothesis Testing
 Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
@@ -96,6 +115,18 @@ Our alternative hypothesis is **that there _IS_ a relationship between the avera
 Our test statistic is **Pearson's R**, otherwise known as the correlation coefficient, which we chose a significance level of **0.01**. `JUSTIFY`
 
 After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/hyp-test-corr.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/hyp-test-plot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Framing a Prediction Problem
 Our prediction problem's goal is to predict the number of steps required in a recipe, which will be a regression-type problem. Our response variable is `n_steps`, and we chose it because the number of steps in a recipe is dependent on a lot of different factors and does not exactly increase or decrease in an intutitive manner. For example, a recipe could take over 60 minutes of cook time but that does not necessarily mean it takes a lot of steps. Through this model, we hope to isolate different regressors that can play a role in determining how many steps a recipe takes, and in the end, we look to evaluate our model through the r-square metric. R-square has mathematically relations to another peformance metric, RMSE; however, it has its pros and cons. R-square is a performance metric that is unit-independent, making it easier to interpret and compare across different models. RMSE follows the same units as our response variable; however, across different models it can be a lot harder to compare and interpret. Hence, we are taking advatange of the intepretability of the r-square performance metric.
@@ -105,10 +136,30 @@ At the time of prediction, there are a few initial columns for us to consider in
 ## Baseline Model
 To create our model, we chose to perform a linear regression with two features, `n_ingedients` and `minutes`, with `minutes` specifically being our main regressor since we believe it has the most relevance to our response variable `n_steps`. 'n_ingredients' is a quatitative and discrete variable whereas minutes is a quatitative and continuous variable. With both variables being quantitative, we did not have a need to perform any special encodings and plugged directly into a pipeline containing the linear regression. Through GridSearchCV, we explored between models with and without negative coefficients, models with and without intercepts, and polynomial features ranging from degrees 1 to 4.
 
+Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatters seem to display a non-linear relationship individually between our regressors and our response variable
+
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/6-steps-v-minutes.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/6-steps-v-ing.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
 We concluded that our model performed best with hyperparameters tuned to include an intercept, no negative coefficients, and a polynomial degree of 4 for both regressors. Our R-squared score was 0.2811, indicating that the model can explain about 28% of the data's variation, which we believe to be good. When we inputted our regressors into their respective histograms, we noticed that the data was extremely dense, and furthermore, when we conducted bivariate analysis, we noticed that lot of the relationships between different columns appeared flat. Considering that a lot of this data doesn't exactly give many implications, we believe this model performed relatively well. 
 
-Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatters seem to display a non-linear relationship individually between our regressors and our response variable
 
 ## Final Model
 
 ## Fairness Analysis
+<iframe
+  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/fairness-perm-test.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
