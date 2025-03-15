@@ -9,28 +9,30 @@ By: Kristen Lee and Jordi Pham
 The recipes and ratings dataset is a dataset that revolves around recipes for food and reviews for how well those recipes did. For our project, we are particularly interested in what is the relationship between cooking time and the average rating of recipes. Readers of should care about our dataset and questions because they can provide a baseline when choosing a recipe to cook for their next meal. Per our given csv files, `interactions` is a dataset with 731927 rows, `recipes` is a dataset with 83782 rows, and the left-merged dataset evaluates to 234429 rows of data. The columns that will prove most relevant to our question are `rating` (user-given rating of the recipe) and `minutes` (preparation time of the recipe). Using these two columns, we believe we will be able to compile the right information to hopefully answer our data science question.
 
 The recipe dataset contains these relevant columns:
-| **Column**       | **Description** |
+
+| **Column** | **Description** |
 |------------------|-----------------|
-| `name`            | Name of the recipe |
-| `id`              | ID of the recipe |
-| `minutes`         | Cooking time of the recipe |
-| `contributor_id`  | ID of the person who created the review |
-| `submitted`       | Date the review was logged |
-| `tags`            | Miniature descriptive tags for each recipe (string format resembling a list) |
-| `nutrition`       | List of nutrition facts shown in string format |
-| `n_steps`         | Number of steps required for the recipe |
-| `steps`           | Text description of each step for the recipe |
-| `ingredients`     | Text description of the required ingredients for the recipe |
-| `n_ingredients`   | Number of ingredients for the recipe |
+| `name` | Name of the recipe |
+| `id` | ID of the recipe |
+| `minutes` | Cooking time of the recipe |
+| `contributor_id` | ID of the person who created the review |
+| `submitted` | Date the review was logged |
+| `tags` | Miniature descriptive tags for each recipe (string format resembling a list) |
+| `nutrition` | List of nutrition facts shown in string format |
+| `n_steps` | Number of steps required for the recipe |
+| `steps` | Text description of each step for the recipe |
+| `ingredients` | Text description of the required ingredients for the recipe |
+| `n_ingredients` | Number of ingredients for the recipe |
 
 The interaction dataset contains these relevant columns:
-| **Column**   | **Description** |
+
+| **Column** | **Description** |
 |---------------|-----------------|
-| `user_id`      | ID of the user |
-| `recipe_id`    | ID of the recipe |
-| `date`         | Logged date of the review |
-| `rating`       | Rating out of 5 given by the user |
-| `review`       | Description text of the user review |
+| `user_id` | ID of the user |
+| `recipe_id` | ID of the recipe |
+| `date` | Logged date of the review |
+| `rating` | Rating out of 5 given by the user |
+| `review` | Description text of the user review |
 
 ## Data Cleaning and Exploratory Data Analysis
 ### Data Cleaning
