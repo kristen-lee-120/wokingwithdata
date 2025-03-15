@@ -63,12 +63,12 @@ In our first attempt at univariate analysis, we chose to focus on the column for
   frameborder="0"
 ></iframe>
 
-<iframe 
-  src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/uni-box-1.html"
-  width="800" 
-  height="600" 
-  frameborder="0">
-</iframe>
+<iframe
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-box.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
