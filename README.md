@@ -49,22 +49,22 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 
 <!--add graph here-->
 <iframe 
-    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/univariate-minutes-outliers.html"
+    src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-outliers.html"
     width="800" 
     height="600" 
     frameborder="0">
 </iframe>
 <!--add descriptive analysis after-->
 
-<!-- <iframe
-  src="https://kristen-lee-120.github.io/wokingwithdata/assets/univariate-minutes-dis-no-outliers.html"
+<iframe
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-no-outliers.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 <iframe 
-    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/univariate-avg-rating-box.html"
+    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/uni-box.html"
     width="800" 
     height="600" 
     frameborder="0">
