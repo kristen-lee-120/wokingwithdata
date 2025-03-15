@@ -48,7 +48,20 @@ In order to clean our dataframe, we first looked to clean columns where certain 
 In our first attempt at univariate analysis, we chose to focus on the column for cook time `minutes`; creating a histogram, the first thing we noticed is some of the recipes have an outrageous cook time comnpared to other recipes. Thus, we decided to add in another cleaning step here: using the interquartile range, we deicded to eliminate rows from our main dataframe that were bigger or smaller than the range.
 
 <!--add graph here-->
+<iframe
+  src="assets/univariate_minutes_dis_outliers.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 <!--add descriptive analysis after-->
+
+<iframe
+  src="assets/univariate_mintues_dis_no_outliers.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
