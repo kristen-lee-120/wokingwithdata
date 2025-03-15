@@ -55,9 +55,9 @@ In our first attempt at univariate analysis, we chose to focus on the column for
     frameborder="0">
 </iframe>
 <!--add descriptive analysis after-->
-Looking at the graph above, we saw that there was recipies that had cook times of hundreds of thousands of minutes, even a million! Thus we decided to reduce our dataframe using the IQR (Interquartile Range), where we would only look at the data where the cooktime in `minutes` fell above $Q1 - 1.5 \times IQR$ and below $Q3 + 1.5 \times IQR$.
+Looking at the graph above, we saw that there was recipies that had cook times of hundreds of thousands of minutes, even a million! Thus we decided to reduce our dataframe using the IQR (Interquartile Range), where we would only look at the data where the cooktime in `minutes` fell above Q1 - 1.5 x IQR$ and below Q3 + 1.5 x IQR.
 
-The follow graph is the distribution of the `minutes` column after these outliers are removed. 
+The follow graph is the distribution of the `minutes` column *after* these outliers are removed. 
 
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-no-outliers.html"
@@ -88,7 +88,7 @@ For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `
 ### Interesting Aggregates
 One way to read part of the pivot table below is, say, let's look at the first cell where the average rating is 1 and the recipe takes 1 step. A recipe that has an average rating of 1 and takes 1 step has an average cooking time of 12 minutes flat. All other cells can be read in a similar manner.
 
-From this table, we can also see that the most amount of steps in the entire main dataframe is a 100-step recipe. At 100 steps and an average rating of 5, the average cook time was 1680 minutes.
+From this table, we can also see that the most amount of steps in the entire main dataframe is a 86-step recipe. At 86 steps and an average rating of 5, the average cook time was 18 minutes (somehow??).
 
 <iframe src="https://kristen-lee-120.github.io/wokingwithdata/assets/pivot_table.html"
         width="100%" height="500px" frameborder="0"></iframe>
@@ -97,28 +97,38 @@ From this table, we can also see that the most amount of steps in the entire mai
 ### NMAR Analysis
 The reviews column is a column that could be deemed as NMAR, or not missing at random. After all, this is a dataset of food recipes and their respective reviews; a missing review for a recipe can really only be traced back to how a reviewer interacted with the recipe. The food could've have been so bad that the person felt no need to even leave a review, the recipe may or may not have ever been tried before for a review to be made, or human nature got in the way and the reviewer essentially just forgot to leave a review when logging their personal interaction. 
 
-If we were to change the missingness from NMAR to MAR, where some other column in the dataset could explain the missingness of the `review` column, the additional data that we could possibly obtain would be information about user behavior or recipe characteristics. For example, there could be a column containing data on the difficulty level of the recipe. If a recipe is hard, maybe the person never even finished their attempt to finish the review. Another column of additional data we could possibly obtain is a column that evaluates the ingredients needed in the recipe. Some ingredients could be hard to find and some could be very expensive, which can affect whether or not a review is left.
+If we were to change the missingness from NMAR to MAR, where some other column in the dataset could explain the missingness of the `review` column, the additional data that we could possibly obtain would be information about user behavior or recipe characteristics. For example, there could be a column containing data on the difficulty level of the recipe. If a recipe is hard, maybe the person never even finished their attempt to finish the review. Another column of additional data we could possibly obtain is a column that evaluates the ingredients needed in the recipe. Some ingredients could be hard to find and some could be very expensive, which can affect whether or not a review is left. Other indicative data would be view count of a recipe. If a recipe is never viewed, it can not have a review. 
 
 ### Missingness Dependency
-For both tests, our chosen test statistic was the difference of means between the two groups, and we used permutation testing through 500 iterations in which we were operating under a significance level of 0.01. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had a rating and those with the lack thereof.
+For both tests, our chosen **test statistic** was the **difference of means** between the two groups (group 1: rows with missing average rating, group 2: rows). We used **permutation testing** through 500 iterations and operated under a **significance level of 0.01**. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had an average rating and those with the lack thereof.
 
-First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
+Some pre-processing before testing for missingness was removing the rows with `minutes` outliers, and because we are looking at columns that are intrinsic to the recipe, and not interactions with the recipe (`protien_pvd` and `calories`), we decided to keep only the first occurance of every recipe in the DataFrame, removing rows corresponding to additional reviews. 
+
+#### First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 
 * Null: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
+
+The p-value we found was above 0.5 (**0.542**), which is higher than our significance level 0.01, meaning we fail to reject the null hypothesis that the missingness of the `avg_ratings`** column is not dependent on the `protein_pdv` (percent daily value of protein) column. 
+
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/mar-no-sig.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
+The **observed statistic** of **0.531** is indicated by the red verticle line on the graph. Since the p-value that we found (0.542) is > 0.01, we failed to reject the null hypothesis. 
 
-Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
+
+#### Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 
 * Null: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
+
+The p-value we found was **0.0**, which is lower than our significance level of 0.01, meaning we reject the null hypothesis that the missingness of the `avg_ratings` column is not dependent on the `calories` column. 
+
 
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/mar-sig.html"
@@ -126,13 +136,16 @@ Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
   height="600"
   frameborder="0"
 ></iframe>
+The **observed statistic** of **85.444** is indicated by the red verticle line on the graph. Since the p-value that we found (0.0) is < 0.01, we reject the null hypothesis. Looking at the graph, we can see that the observed statistic is very far from the distribution of created test statistics. 
 
 ## Hypothesis Testing
-Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
+* Null: There is no relationship between average rating of a recipe and its cooking time.
 
-Our alternative hypothesis is **that there _IS_ a relationship between the average rating of a recipe and its cooking time**. 
+* Alt: There _IS_ a relationship between the average rating of a recipe and its cooking time. 
 
-Our test statistic is **Pearson's R**, otherwise known as the correlation coefficient, which we chose a significance level of **0.01**. `JUSTIFY`
+* Test statistic: **Pearson's R**, otherwise known as the correlation coefficient.
+
+* Significance Level: 0.01 
 
 After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
 <iframe
