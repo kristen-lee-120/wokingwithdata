@@ -49,7 +49,7 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 
 <!--add graph here-->
 <iframe 
-    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/univariate-minutes-dis-outliers.html"
+    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/univariate-minutes-outliers.html"
     width="800" 
     height="600" 
     frameborder="0">
@@ -63,14 +63,21 @@ In our first attempt at univariate analysis, we chose to focus on the column for
   frameborder="0"
 ></iframe> -->
 
+<iframe 
+    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/univariate-avg-rating-box.html"
+    width="800" 
+    height="600" 
+    frameborder="0">
+</iframe>
+
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
+<iframe
+  src="https://kristen-lee-120/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 ### Interesting Aggregates
 
@@ -88,12 +95,12 @@ First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 * Null: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/mar-no-sig.html"
+<iframe
+  src="https://kristen-lee-120/wokingwithdata/assets/mar-no-sig.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 
@@ -101,12 +108,12 @@ Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
 
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/mar-sig.html"
+<iframe
+  src="https://kristen-lee-120/wokingwithdata/assets/mar-sig.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 ## Hypothesis Testing
 Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
@@ -116,18 +123,18 @@ Our alternative hypothesis is **that there _IS_ a relationship between the avera
 Our test statistic is **Pearson's R**, otherwise known as the correlation coefficient, which we chose a significance level of **0.01**. `JUSTIFY`
 
 After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/hyp-test-corr.html"
+<iframe
+  src="https://kristen-lee-120/wokingwithdata/assets/hyp-test-corr.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/hyp-test-plot.html"
+  src="https://kristen-lee-120/wokingwithdata/assets/hyp-test-plot.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 ## Framing a Prediction Problem
 Our prediction problem's goal is to predict the number of steps required in a recipe, which will be a regression-type problem. Our response variable is `n_steps`, and we chose it because the number of steps in a recipe is dependent on a lot of different factors and does not exactly increase or decrease in an intutitive manner. For example, a recipe could take over 60 minutes of cook time but that does not necessarily mean it takes a lot of steps. Through this model, we hope to isolate different regressors that can play a role in determining how many steps a recipe takes, and in the end, we look to evaluate our model through the r-square metric. R-square has mathematically relations to another peformance metric, RMSE; however, it has its pros and cons. R-square is a performance metric that is unit-independent, making it easier to interpret and compare across different models. RMSE follows the same units as our response variable; however, across different models it can be a lot harder to compare and interpret. Hence, we are taking advatange of the intepretability of the r-square performance metric.
@@ -158,9 +165,9 @@ We concluded that our model performed best with hyperparameters tuned to include
 ## Final Model
 
 ## Fairness Analysis
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/fairness-perm-test.html"
+<iframe
+  src="https://kristen-lee-120/wokingwithdata/assets/fairness-perm-test.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
