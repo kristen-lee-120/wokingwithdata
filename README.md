@@ -64,10 +64,10 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 ></iframe>
 
 <iframe 
-    src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/uni-box.html"
-    width="800" 
-    height="600" 
-    frameborder="0">
+  src="https://kristen-lee-120.github.io/wokingwithdata/main/assets/uni-box.html"
+  width="800" 
+  height="600" 
+  frameborder="0">
 </iframe>
 
 ### Bivariate Analysis
