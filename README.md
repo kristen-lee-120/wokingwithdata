@@ -62,9 +62,7 @@ The reviews column is a column that could be deemed as NMAR, or not missing at r
 If we were to change the missingness from NMAR to MAR, where some other column in the dataset could explain the missingness of the `review` column, the additional data that we could possibly obtain would be information about user behavior or recipe characteristics. For example, there could be a column containing data on the difficulty level of the recipe. If a recipe is hard, maybe the person never even finished their attempt to finish the review. Another column of additional data we could possibly obtain is a column that evaluates the ingredients needed in the recipe. Some ingredients could be hard to find and some could be very expensive, which can affect whether or not a review is left.
 
 ### Missingness Dependency
-Missingess: avg ratings on diff-of-means for protein pdv (percent daily value) ...
-
-Non-missingness: avg ratings on diff-of-means for calories ...
+For both tests, our chosen test statistic was the difference of means between the two groups, and we used permutation testing through 500 iterations in which we were operating under a significance level of 0.01. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had a rating and those with the lack thereof.
 
 First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 
@@ -77,8 +75,6 @@ Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 * Null: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
-
-For both tests, our chosen test statistic was the difference of means between the two groups, and we used permutation testing through 500 iterations in which we were operating under a significance level of 0.01. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had a rating and those with the lack thereof.
 
 ## Hypothesis Testing
 Our null hypothesis **is that there is no relationship between average rating of a recipe and its cooking time**.
@@ -95,6 +91,11 @@ Our prediction problem's goal is to predict the number of steps required in a re
 At the time of prediction, there are a few initial columns for us to consider in our prediction model: `minutes` and `n_ingredients`. These two initial regressors we consider to be highly relevant to our response variable: on average, we would expect that a recipe  of longer time probably required more steps and that a recipe that requires more ingredients probably adds more steps in regards to preparation and such. More regressors can be engineered later to improve the model.
 
 ## Baseline Model
+To create our model, we chose to perform a linear regression with two features, `n_ingedients` and `minutes`, with `minutes` specifically being our main regressor since we believe it has the most relevance to our response variable `n_steps`. 'n_ingredients' is a quatitative and discrete variable whereas minutes is a quatitative and continuous variable. With both variables being quantitative, we did not have a need to perform any special encodings and plugged directly into a pipeline containing the linear regression. Through GridSearchCV, we explored between models with and without negative coefficients, models with and without intercepts, and polynomial features ranging from degrees 1 to 4.
+
+We concluded that our model performed best with hyperparameters tuned to include an intercept, no negative coefficients, and a polynomial degree of 4 for both regressors. Our R-squared score was 0.2811, indicating that the model can explain about 28% of the data's variation, which we believe to be good. When we inputted our regressors into their respective histograms, we noticed that the data was extremely dense, and furthermore, when we conducted bivariate analysis, we noticed that lot of the relationships between different columns appeared flat. Considering that a lot of this data doesn't exactly give many implications, we believe this model performed relatively well. 
+
+Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatters seem to display a non-linear relationship individually between our regressors and our response variable
 
 ## Final Model
 
