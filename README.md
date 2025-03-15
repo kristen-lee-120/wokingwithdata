@@ -49,7 +49,7 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 
 <!--add graph here-->
 <iframe
-  src="assets/univariate_minutes_dis_outliers.html"
+  src="../assets/univariate-minutes-dis-outliers.html"
   width="800"
   height="600"
   frameborder="0"
