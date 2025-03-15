@@ -55,6 +55,9 @@ In our first attempt at univariate analysis, we chose to focus on the column for
     frameborder="0">
 </iframe>
 <!--add descriptive analysis after-->
+Looking at the graph above, we saw that there was recipies that had cook times of hundreds of thousands of minutes, even a million! Thus we decided to reduce our dataframe using the IQR (Interquartile Range), where we would only look at the data where the cooktime in `minutes` fell above $Q1 - 1.5 \times IQR$ and below $Q3 + 1.5 \times IQR$.
+
+The follow graph is the distribution of the `minutes` column after these outliers are removed. 
 
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-no-outliers.html"
@@ -62,16 +65,19 @@ In our first attempt at univariate analysis, we chose to focus on the column for
   height="600"
   frameborder="0"
 ></iframe>
+Looking at this graph, we see a lot of cooking times are centered around 20-40 minutes, and that the distribution has a right skew. 
 
+We then looked at the distribution of average ratings:
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/uni-box.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
+`avg_ratings` sees a hard left skew. Most of the average ratings are concentrated at 5, with this being the max, Q3, and the median. The lowest average rating a recipe received is 1. 
 
 ### Bivariate Analysis
-For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
+For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph below appears to have no visible trends as the OLS line seems to have a very slight negative slope. This may imply that a higher average rating weakly correlates with a slightly shorter cooktime.
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
   width="800"
@@ -80,6 +86,12 @@ For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `
 ></iframe>
 
 ### Interesting Aggregates
+One way to read part of the pivot table below is, say, let's look at the first cell where the average rating is 1 and the recipe takes 1 step. A recipe that has an average rating of 1 and takes 1 step has an average cooking time of 12 minutes flat. All other cells can be read in a similar manner.
+
+From this table, we can also see that the most amount of steps in the entire main dataframe is a 100-step recipe. At 100 steps and an average rating of 5, the average cook time was 1680 minutes.
+
+<iframe src="https://kristen-lee-120.github.io/wokingwithdata/assets/pivot_table.html"
+        width="100%" height="500px" frameborder="0"></iframe>
 
 ## Assessment of Missingness
 ### NMAR Analysis
