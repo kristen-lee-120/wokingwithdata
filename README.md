@@ -55,12 +55,12 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 </iframe>
 <!--add descriptive analysis after-->
 
-<iframe
+<!-- <iframe
   src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/univariate-mintues-dis-no-outliers.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe>
+></iframe> -->
 
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
