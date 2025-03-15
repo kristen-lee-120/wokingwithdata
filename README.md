@@ -56,12 +56,12 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 </iframe>
 <!--add descriptive analysis after-->
 
-<iframe
+<!-- <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/univariate-minutes-dis-no-outliers.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe>
+></iframe> -->
 
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
@@ -139,18 +139,18 @@ To create our model, we chose to perform a linear regression with two features, 
 
 Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatters seem to display a non-linear relationship individually between our regressors and our response variable
 
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/6-steps-v-minutes.html"
+<iframe
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/6-steps-v-minutes.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
-<!-- <iframe
-  src="https://raw.githubusercontent.com/kristen-lee-120/wokingwithdata/assets/6-steps-v-ing.html"
+></iframe>
+<iframe
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/6-steps-v-ing.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 We concluded that our model performed best with hyperparameters tuned to include an intercept, no negative coefficients, and a polynomial degree of 4 for both regressors. Our R-squared score was 0.2811, indicating that the model can explain about 28% of the data's variation, which we believe to be good. When we inputted our regressors into their respective histograms, we noticed that the data was extremely dense, and furthermore, when we conducted bivariate analysis, we noticed that lot of the relationships between different columns appeared flat. Considering that a lot of this data doesn't exactly give many implications, we believe this model performed relatively well. 
 
