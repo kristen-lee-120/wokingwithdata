@@ -39,7 +39,9 @@ The interaction dataset contains these relevant columns:
 <!-- Describe, in detail, the data cleaning steps you took and how they affected your analyses. The steps should be explained in reference to the data generating process. Show the head of your cleaned DataFrame (see Part 2: Report for instructions). -->
 
 <!-- We did not fill or impute missing data, since intructions said ... -->
-In order to clean our dataframe, we first looked to clean columns where certain values failed to make sense or the values came in an unusable form. For the `ratings` column, some recipes had a rating of 0; however, we do not have any external sources to confirm what this zero truly means: could this 0 be a real rating of 0 out of 5 or is it 0 because it hasn't been rated? Using the ratings we did have, though, we created and mapped a series of average ratings onto their respective recipes. Columns like `tags`, `nutrition`, and `ingredients` were columns where their values were strings that appeared as lists, which we stripped the values of their list brackets and split accordingly to create actual lists. Specifically for nutrition, we further created a column for each nutritional statistic and then removed the original nutrition column. Another column we removed was a column called `Unnamed: 0`: it was unclear as to what values were contained in this column. On top of cleaning these columns, we also created an `n_missing` variable that is a series containing the counts of missing values in each column.
+In order to clean our merged dataframe, we first looked to clean columns where certain values failed to make sense or the values came in an unusable form. For the `ratings` column, some recipes had a rating of 0; however, we do not have any external sources to confirm what this zero truly means: could this 0 be a real rating of 0 out of 5 or is it 0 because it hasn't been rated? Using the ratings we did have, though, we created and mapped a series of average ratings onto their respective recipes. Columns like `tags`, `nutrition`, and `ingredients` were columns where their values were strings that appeared as lists, which we stripped the values of their list brackets and split accordingly to create actual lists. Specifically for nutrition, we further created a column for each nutritional statistic and then removed the original nutrition column. Another column we removed was a column called `Unnamed: 0`: it was unclear as to what values were contained in this column. On top of cleaning these columns, we also created an `n_missing` variable that is a series containing the counts of missing values in each column. 
+
+Additionally, as we progressed through our analysis, we further cleaned our DataFrame by dropping rows with `minutes` outliers and only keeping the first instance of every recipe in the DataFrame. This reasoning is expanded in the later sections as we explored and uncovered patterns in our data. 
 
 
 
@@ -55,7 +57,7 @@ In our first attempt at univariate analysis, we chose to focus on the column for
     frameborder="0">
 </iframe>
 <!--add descriptive analysis after-->
-Looking at the graph above, we saw that there was recipies that had cook times of hundreds of thousands of minutes, even a million! Thus we decided to reduce our dataframe using the IQR (Interquartile Range), where we would only look at the data where the cooktime in `minutes` fell above Q1 - 1.5 x IQR$ and below Q3 + 1.5 x IQR.
+Looking at the graph above, we saw that there was recipies that had cook times of hundreds of thousands of minutes, even a million! Thus we decided to reduce our dataframe using the IQR (Interquartile Range), where we would only look at the data where the cooktime in `minutes` fell above Q1 - 1.5 x IQR$ and below Q3 + 1.5 x IQR as we felt that having recipes with 100,000 of minutes was not realistic.
 
 The follow graph is the distribution of the `minutes` column *after* these outliers are removed. 
 
@@ -102,13 +104,13 @@ If we were to change the missingness from NMAR to MAR, where some other column i
 ### Missingness Dependency
 For both tests, our chosen **test statistic** was the **difference of means** between the two groups (group 1: rows with missing average rating, group 2: rows). We used **permutation testing** through 500 iterations and operated under a **significance level of 0.01**. In our algorithm, we would shuffle the `avg_ratings` to mix up the groups between those that had an average rating and those with the lack thereof.
 
-Some pre-processing before testing for missingness was removing the rows with `minutes` outliers, and because we are looking at columns that are intrinsic to the recipe, and not interactions with the recipe (`protien_pvd` and `calories`), we decided to keep only the first occurance of every recipe in the DataFrame, removing rows corresponding to additional reviews. 
+Some pre-processing before testing for missingness was removing the rows with `minutes` outliers because we felt like the outliers did not accurately represent true cook times. Additionally, because we are looking at columns that are intrinsic to the recipe, and not interactions with the recipe (`protien_pvd` and `calories`), we decided to keep only the first occurance of every recipe in the DataFrame, removing rows corresponding to additional reviews. We proceed to use this cleaned DataFrame for the rest of our tests and models. 
 
 #### First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 
-* Null: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
+* **Null Hypothesis**: The missingness of the `avg_ratings` column is not dependent on the `protein_pdv` column.
 
-* Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
+* **Alternative Hypothesis**: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
 
 The p-value we found was above 0.5 (**0.542**), which is higher than our significance level 0.01, meaning we fail to reject the null hypothesis that the missingness of the `avg_ratings`** column is not dependent on the `protein_pdv` (percent daily value of protein) column. 
 
@@ -123,9 +125,9 @@ The **observed statistic** of **0.531** is indicated by the red verticle line on
 
 #### Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 
-* Null: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
+* **Null Hypothesis**: The missingness of the `avg_ratings` column is not dependent on the `calories` column.
 
-* Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
+* **Alternative Hypothesis**: The missingness of the `avg_ratings` column is dependent on the `calories` column.
 
 The p-value we found was **0.0**, which is lower than our significance level of 0.01, meaning we reject the null hypothesis that the missingness of the `avg_ratings` column is not dependent on the `calories` column. 
 
@@ -136,18 +138,23 @@ The p-value we found was **0.0**, which is lower than our significance level of 
   height="600"
   frameborder="0"
 ></iframe>
-The **observed statistic** of **85.444** is indicated by the red verticle line on the graph. Since the p-value that we found (0.0) is < 0.01, we reject the null hypothesis. Looking at the graph, we can see that the observed statistic is very far from the distribution of created test statistics. 
+The **observed statistic** of **85.444** is indicated by the red verticle line on the graph. Since the p-value that we found (0.0) is < 0.01, we reject the null hypothesis. Looking at the graph, we can see that the observed statistic is very far from the distribution of simulated test statistics. 
 
 ## Hypothesis Testing
-* Null: There is no relationship between average rating of a recipe and its cooking time.
+* **Null Hypothesis**: There is no relationship between average rating of a recipe and its cooking time.
 
-* Alt: There _IS_ a relationship between the average rating of a recipe and its cooking time. 
+* **Alternate Hypothesis**: There _IS_ a relationship between the average rating of a recipe and its cooking time. 
 
-* Test statistic: **Pearson's R**, otherwise known as the correlation coefficient.
+* **Test statistic**: **Pearson's R**, otherwise known as the correlation coefficient.
 
-* Significance Level: 0.01 
+* **Significance Level**: 0.01 
 
-After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
+For this hypothesis test, we performed a permutation test by shuffling the average rating of recipes. The reason we performed a permutation test was because we do not have any information of any population, and we want to check if the two distributions look like they come from the same population. We did not propse a direction, since we just wanted to see if a relationship existed or not. For the test statistic, we chose Pearson's R, or the correlation coefficient because it is highly interpretable as to whether or not a relationship exists. As mentioned above, we used the cleaned DataFrame with no outliers and no duplicate recipes to focus on the recipes themselves. 
+
+Our observed statistic was **-0.021**. For 500 repitions, we shuffled the `avg_rating` column and found the correlation coefficient between this shuffled column and the `minutes` column. We got a p-value of **0.0**. 
+
+
+We see the results of our permutation test with the graph below. 
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/hyp-test-corr.html"
   
@@ -155,6 +162,8 @@ After performing a permutation test by shuffling the average rating of recipies,
   height="600"
   frameborder="0"
 ></iframe>
+The **observed statistic** of **-0.021** is indicated by the two dashed vertical lines on the graph since we performed a two-tailed test. Since the p-value that we found (0.0) is < 0.01, we reject the null hypothesis. Looking at the graph, we can see that the observed statistic is very far from the distribution of simulated test statistics. One plausible explanation for this finding could be that people might dislike recipes that take longer, as that means more work. We can see the graph of the line of best fit in red below. 
+
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/hyp-test-plot.html"
   width="800"
@@ -162,15 +171,17 @@ After performing a permutation test by shuffling the average rating of recipies,
   frameborder="0"
 ></iframe>
 
+
+
 ## Framing a Prediction Problem
-Our prediction problem's goal is to predict the number of steps required in a recipe, which will be a regression-type problem. Our response variable is `n_steps`, and we chose it because the number of steps in a recipe is dependent on a lot of different factors and does not exactly increase or decrease in an intutitive manner. For example, a recipe could take over 60 minutes of cook time but that does not necessarily mean it takes a lot of steps. Through this model, we hope to isolate different regressors that can play a role in determining how many steps a recipe takes, and in the end, we look to evaluate our model through the r-square metric. R-square has mathematically relations to another peformance metric, RMSE; however, it has its pros and cons. R-square is a performance metric that is unit-independent, making it easier to interpret and compare across different models. RMSE follows the same units as our response variable; however, across different models it can be a lot harder to compare and interpret. Hence, we are taking advatange of the intepretability of the r-square performance metric.
+Our prediction problem's goal is to predict the number of steps required in a recipe, which will be a regression-type problem. Our response variable is `n_steps`, and we chose it because the number of steps in a recipe is dependent on a lot of different factors and does not exactly increase or decrease in an intutitive manner. For example, a recipe could take over 60 minutes of cook time but that does not necessarily mean it takes a lot of steps. Through this model, we hope to isolate different regressors that can play a role in determining how many steps a recipe takes, and in the end, we look to evaluate our model through the r-square metric. R-square has mathematical relations to another peformance metric, RMSE; however, it has its pros and cons. R-square is a performance metric that is unit-independent, making it easier to interpret and compare across different models. RMSE follows the same units as our response variable; however, across different models it can be a lot harder to compare and interpret. Hence, we are taking advatange of the intepretability of the r-square performance metric.
 
 At the time of prediction, there are a few initial columns for us to consider in our prediction model: `minutes` and `n_ingredients`. These two initial regressors we consider to be highly relevant to our response variable: on average, we would expect that a recipe  of longer time probably required more steps and that a recipe that requires more ingredients probably adds more steps in regards to preparation and such. More regressors can be engineered later to improve the model.
 
 ## Baseline Model
-To create our model, we chose to perform a linear regression with two features, `n_ingedients` and `minutes`, with `minutes` specifically being our main regressor since we believe it has the most relevance to our response variable `n_steps`. 'n_ingredients' is a quatitative and discrete variable whereas minutes is a quatitative and continuous variable. With both variables being quantitative, we did not have a need to perform any special encodings and plugged directly into a pipeline containing the linear regression. Through GridSearchCV, we explored between models with and without negative coefficients, models with and without intercepts, and polynomial features ranging from degrees 1 to 4.
+To create our model, we chose to perform a linear regression with two features, `n_ingedients` and `minutes`, with `minutes` specifically being our main regressor since we believe it has the most relevance to our response variable `n_steps`. 'n_ingredients' is a quantitative and discrete variable whereas minutes is a quantitative and continuous variable. With both variables being quantitative, we did not have a need to perform any special encodings and plugged directly into a pipeline containing the linear regression. Through GridSearchCV, we explored between models with and without negative coefficients, models with and without intercepts, and polynomial features ranging from degrees 1 to 4.
 
-Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatters seem to display a non-linear relationship individually between our regressors and our response variable
+Choosing to tune our model with the inclusion of polynomial degrees was a matter of how the graphs looked like when we created scatterplots of minutes on number of steps and number of ingredients on number of steps. Both of those scatterplots below seem to display a non-linear relationship individually between our regressors and our response variable
 
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/6-steps-v-minutes.html"
@@ -185,11 +196,13 @@ Choosing to tune our model with the inclusion of polynomial degrees was a matter
   frameborder="0"
 ></iframe>
 
-We concluded that our model performed best with hyperparameters tuned to include an intercept, no negative coefficients, and a polynomial degree of 4 for both regressors. Our R-squared score was 0.2811, indicating that the model can explain about 28% of the data's variation, which we believe to be good. When we inputted our regressors into their respective histograms, we noticed that the data was extremely dense, and furthermore, when we conducted bivariate analysis, we noticed that lot of the relationships between different columns appeared flat. Considering that a lot of this data doesn't exactly give many implications, we believe this model performed relatively well. 
+We concluded that our base model performed best with hyperparameters tuned to not include an intercept, to consider positive and negative coefficients (not strictly positive), and a polynomial degree of 4 for both regressors. Our R-squared score was 0.2811, indicating that the model can explain about 28% of the data's variation, which we believe to be good. When we inputted our regressors into their respective histograms, we noticed that the data was extremely dense, and furthermore, when we conducted bivariate analysis, we noticed that lot of the relationships between different columns appeared flat. Considering that a lot of this data doesn't exactly give many implications, we believe this model performed relatively well. 
 
 
 ## Final Model
+The features we added include a dummy variable called `oven_req` which is a binary variable that indicates whether or not a recipe requires an oven or not, a log transformation of the calories column due a noticeable bulge in the data when graphed (this log transformation linearizes the data to be more usable), and a standardization of all quantified chosen features like minutes, calories, and number of ingredients. We believe that these features will improve our baseline model due to their relevance to the response variable. It is intuitive to believe that if a recipe requires an oven, it might marginally add on some steps towards our final output. Furthermore, if a recipe has a lot of calories, it might be indicative of a larger serving size which could lead to more steps in terms of preparation. Standardization is not a major transformation here: its only effect here is the magnitude of the coefficients.
 
+The modeling algorithm we chose is the same as above, linear regression, and the hyperparameters that ended up best were polynomial degrees of 4, coefficients that can be negative or positive, and a non-intercept model (forcing it to run through the origin and removing its constant term). These hyperparameters were selected through GridSearchCV, and the model improved from an R-square score of 28% to a score of 32%. This is considered an improvement because it indicates that the new model with the engineered features (dummy varible for ovens and logging calories for linearization) can explain 4% more of the variation in the data.
 ## Fairness Analysis
 <iframe
   src="https://kristen-lee-120.github.io/wokingwithdata/assets/fairness-perm-test.html"
