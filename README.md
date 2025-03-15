@@ -73,7 +73,7 @@ In our first attempt at univariate analysis, we chose to focus on the column for
 ### Bivariate Analysis
 For our bivariate analysis, we chose to make a scatterplot for `avg_rating` on `minutes` and then added an OLS line estimator on top. The plotly graph appears to have no visible trends as the OLS line seems to have no significant slope in either direction. This may imply that  there may be no relationship between these two columns.
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/bivariate-minutes-avg-rating.html"
   width="800"
   height="600"
   frameborder="0"
@@ -96,7 +96,7 @@ First Test For A Missingness Mechanism: `avg_ratings` vs. `protein_pdv`
 
 * Alt: The missingness of the `avg_ratings` column is dependent on the `protein_pdv` column.
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/mar-no-sig.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/mar-no-sig.html"
   width="800"
   height="600"
   frameborder="0"
@@ -109,7 +109,7 @@ Second Test For A Missingness Mechanism: `avg_ratings` vs.`calories`
 * Alt: The missingness of the `avg_ratings` column is dependent on the `calories` column.
 
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/mar-sig.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/mar-sig.html"
   width="800"
   height="600"
   frameborder="0"
@@ -124,13 +124,14 @@ Our test statistic is **Pearson's R**, otherwise known as the correlation coeffi
 
 After performing a permutation test by shuffling the average rating of recipies, we rejected our null hypothesis. 
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/hyp-test-corr.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/hyp-test-corr.html"
+  
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/hyp-test-plot.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/hyp-test-plot.html"
   width="800"
   height="600"
   frameborder="0"
@@ -166,7 +167,7 @@ We concluded that our model performed best with hyperparameters tuned to include
 
 ## Fairness Analysis
 <iframe
-  src="https://kristen-lee-120/wokingwithdata/assets/fairness-perm-test.html"
+  src="https://kristen-lee-120.github.io/wokingwithdata/assets/fairness-perm-test.html"
   width="800"
   height="600"
   frameborder="0"
